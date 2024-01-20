@@ -5,8 +5,10 @@ use nix::time::{clock_gettime, ClockId};
 
 #[cfg(any(target_os = "macos", target_os = "ios", target_os = "tvos"))]
 const CLOCK_ID: ClockId = ClockId::CLOCK_MONOTONIC;
-#[cfg(not(any(target_os = "macos", target_os = "ios", target_os = "tvos")))]
+#[cfg(not(any(target_os = "macos", target_os = "ios", target_os = "tvos", target_os = "freebsd")))]
 const CLOCK_ID: ClockId = ClockId::CLOCK_BOOTTIME;
+#[cfg(any(target_os = "freebsd"))]
+const CLOCK_ID: ClockId = ClockId::CLOCK_UPTIME;
 
 #[derive(Clone, Copy, Debug)]
 pub(crate) struct Instant {
